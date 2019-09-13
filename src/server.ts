@@ -2,7 +2,7 @@ import fastify from 'fastify'
 import config from './config'
 import logger from './logger'
 
-const app = fastify({ logger: true })
+const app = fastify({ logger })
 
 app.get('/', async () => {
   return { success: true }
