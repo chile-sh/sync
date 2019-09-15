@@ -2,6 +2,7 @@ import crypto from 'crypto'
 
 const IV_LENGTH = 16
 
+// key must be 256 bits (32 characters)
 export const encrypt = (text: string, key: string) => {
   const iv = crypto.randomBytes(IV_LENGTH)
   const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv)
@@ -24,8 +25,9 @@ export const decrypt = (text: string, key: string) => {
   return decrypted.toString()
 }
 
-export const createHash = (str: string, digest?) =>
+export const createHash = (str: string, length = 32, digest?) =>
   crypto
     .createHash('sha256')
     .update(str)
     .digest(digest || 'hex')
+    .slice(0, length)
