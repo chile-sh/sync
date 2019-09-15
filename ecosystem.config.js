@@ -27,7 +27,7 @@ module.exports = {
       repo: 'git@github.com:chile-sh/sync.git',
       path: '/home/deploy/apps/sync/production',
       'post-deploy':
-        'yarn install && pm2 reload ecosystem.config.js --env production',
+        'yarn build && pm2 startOrRestart ecosystem.config.js --env production',
     },
   },
 }

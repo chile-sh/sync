@@ -12,7 +12,8 @@
   "scripts": {
     "ts-node": "node -r tsconfig-paths/register -r ts-node/register -r dotenv/config",
     "start": "yarn ts-node --inspect=5858 src/app.ts",
-    "build": "rm -rvf build && tsc",
+    "build:ts": "rm -rvf build && tsc",
+    "build": "yarn install && yarn build:ts",
     "serve": "node build/app.js",
     "test": "yarn lint && jest",
     "test:watch": "jest --watch",
