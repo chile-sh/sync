@@ -1,7 +1,7 @@
 {
   "name": "sync",
   "version": "1.0.0",
-  "main": "build/server.js",
+  "main": "build/app.js",
   "license": "GPL-3.0",
   "husky": {
     "hooks": {
@@ -11,9 +11,9 @@
   },
   "scripts": {
     "ts-node": "node -r tsconfig-paths/register -r ts-node/register -r dotenv/config",
-    "start": "yarn ts-node --inspect=5858 src/server.ts",
+    "start": "yarn ts-node --inspect=5858 src/app.ts",
     "build": "rm -rvf build && tsc",
-    "serve": "node build/server.js",
+    "serve": "node build/app.js",
     "test": "yarn lint && jest",
     "test:watch": "jest --watch",
     "lint": "eslint 'src/**/*.@(ts|js|tsx|jsx)'",
@@ -34,6 +34,8 @@
     "husky": "^3.0.5",
     "jest": "^24.8.0",
     "prettier": "^1.17.0",
+    "shipit-cli": "^5.1.0",
+    "shipit-deploy": "^5.1.0",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.1.0",
     "tsconfig-paths": "^3.8.0",
