@@ -5,7 +5,7 @@
       "name": "Launch Server",
       "type": "node",
       "request": "launch",
-      "args": ["src/server.ts"],
+      "args": ["src/app.ts"],
       "runtimeArgs": [
         "-r",
         "ts-node/register",
