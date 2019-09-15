@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
 
 import config from './config'
-import { create, get, remove } from 'controller'
+import { create, get, remove } from './controller'
 
 export default (app: FastifyInstance) => {
   app.route({
