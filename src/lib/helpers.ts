@@ -10,13 +10,13 @@ export const encrypt = (text: string, key: string) => {
 
   encrypted = Buffer.concat([encrypted, cipher.final()])
 
-  return `${iv.toString('hex')}:${encrypted.toString('hex')}`
+  return `${iv.toString('base64')}:${encrypted.toString('base64')}`
 }
 
 export const decrypt = (text: string, key: string) => {
   const textParts = text.split(':')
-  const iv = Buffer.from(textParts.shift(), 'hex')
-  const encryptedText = Buffer.from(textParts.join(':'), 'hex')
+  const iv = Buffer.from(textParts.shift(), 'base64')
+  const encryptedText = Buffer.from(textParts.join(':'), 'base64')
   const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv)
   let decrypted = decipher.update(encryptedText)
 
