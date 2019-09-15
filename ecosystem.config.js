@@ -4,7 +4,7 @@ module.exports = {
   apps: [
     {
       name: 'sync-api',
-      script: 'app.js',
+      script: 'build/app.js',
       instances: 1,
       autorestart: true,
       watch: false,
