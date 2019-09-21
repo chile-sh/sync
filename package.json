@@ -27,6 +27,7 @@
     "@types/jest": "^24.0.18",
     "@types/nanoid": "^2.0.0",
     "@types/node": "^12.7.5",
+    "@types/ws": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
     "eslint": "^6.4.0",
@@ -46,7 +47,9 @@
     "dotenv": "^8.1.0",
     "fastify": "^2.8.0",
     "ioredis": "^4.14.1",
+    "json5": "^2.1.0",
     "nanoid": "^2.1.1",
-    "pino": "^5.13.3"
+    "pino": "^5.13.3",
+    "ws": "^7.1.2"
   }
 }

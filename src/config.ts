@@ -1,6 +1,3 @@
-import dotenv from 'dotenv'
-dotenv.config()
-
 const {
   PORT = 4000,
   REDIS_PREFIX = 'sync',
