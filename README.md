@@ -28,6 +28,14 @@ cp .env.example .env
 yarn start
 ```
 
+## Deploy
+
+```bash
+# pm2 deploy {env} {command}
+pm2 deploy production setup # if setting up a new instance
+pm2 deploy production update
+```
+
 ## Test
 
 ```bash
