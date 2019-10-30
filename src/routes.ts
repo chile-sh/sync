@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
 
 import config from './config'
-import { create, get, remove } from './controller'
+import { create, get, pair, initPair, remove } from './controller'
 
 export default (app: FastifyInstance) => {
   app.route({
@@ -25,6 +25,7 @@ export default (app: FastifyInstance) => {
             adminHash: { type: 'string' },
             viewUrl: { type: 'string' },
             expireDate: { type: 'number' },
+            pairCode: { type: 'string' },
             viewed: { type: 'number' },
           },
         },
@@ -54,6 +55,38 @@ export default (app: FastifyInstance) => {
     },
 
     handler: get,
+  })
+
+  app.route({
+    method: 'GET',
+    url: '/pair/:code',
+    schema: {
+      params: {
+        type: 'object',
+        required: ['code'],
+        properties: {
+          code: { type: 'string' },
+        },
+      },
+    },
+
+    handler: pair,
+  })
+
+  app.route({
+    method: 'POST',
+    url: '/pair/:adminHash',
+    schema: {
+      params: {
+        type: 'object',
+        required: ['adminHash'],
+        properties: {
+          adminHash: { type: 'string' },
+        },
+      },
+    },
+
+    handler: initPair,
   })
 
   app.route({

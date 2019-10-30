@@ -1,9 +1,19 @@
 import nanoid from 'nanoid'
+import shortid from 'shortid'
 
 import config from './config'
 import redis from './lib/redis'
 import { encrypt, createHash, decrypt } from './lib/helpers'
 import { FastifyReply, FastifyRequest } from 'fastify'
+
+export const createPairCode = async (adminHash: string) => {
+  const code = shortid()
+  const viewHash = createHash(adminHash)
+
+  await redis.set(`pair:${code}`, viewHash, 'EX', 60)
+
+  return code
+}
 
 export const create = async (
   request: FastifyRequest,
@@ -42,20 +52,15 @@ export const create = async (
     viewUrl: `/n/${viewHash}`,
     adminHash,
     expireDate,
+    pairCode: await createPairCode(adminHash),
   }
 }
 
-export const get = async (
-  request: FastifyRequest,
-  reply: FastifyReply<any>
-) => {
-  const { viewHash } = request.params
-  const { raw } = request.query
-
+const getFromRedis = async (viewHash: string, raw?: any) => {
   const str = await redis.get(createHash(viewHash))
   if (!str) {
-    reply.code(404)
-    throw Error('Record not found')
+    const err = Error('Record not found')
+    throw { ...err, code: 404 }
   }
 
   const parsed = JSON.parse(str)
@@ -75,6 +80,42 @@ export const get = async (
     expireDate: parsed.expireDate,
     payload,
   }
+}
+
+export const get = async (
+  request: FastifyRequest,
+  reply: FastifyReply<any>
+) => {
+  const { viewHash } = request.params
+  const { raw } = request.query
+
+  try {
+    return await getFromRedis(viewHash, raw)
+  } catch (err) {
+    if (err.code) reply.code(err.code)
+  }
+}
+
+export const pair = async (
+  request: FastifyRequest,
+  reply: FastifyReply<any>
+) => {
+  const { code } = request.params
+  const viewHash = await redis.get(`pair:${code}`)
+
+  try {
+    return {
+      viewHash,
+      ...(await getFromRedis(viewHash)),
+    }
+  } catch (err) {
+    if (err.code) reply.code(err.code)
+  }
+}
+
+export const initPair = async (request: FastifyRequest) => {
+  const { adminHash } = request.body
+  return createPairCode(adminHash)
 }
 
 export const remove = async (request: FastifyRequest) => {
